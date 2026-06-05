@@ -2,7 +2,7 @@
 
 Este proyecto sirve como BFF (Backend for Frontend) para orquestar la comunicación con la API pública de Rick and Morty, garantizando una capa de lógica de negocio, manejo centralizado de errores y una estructura robusta.
 
-## 🚀 Arquitectura
+## Arquitectura
 El proyecto sigue una estructura de capas para garantizar la separación de responsabilidades y los principios SOLID:
 
 * PruebaTecnica.Entities: Capa de modelos y contratos (POCOs).
@@ -10,14 +10,14 @@ El proyecto sigue una estructura de capas para garantizar la separación de resp
 * PruebaTecnica.BusinessLogic: Capa de lógica de negocio (BLL) que procesa, valida y transforma la información.
 * PruebaTecnica.Api: Web API que expone los endpoints al frontend, incluye el Middleware de errores y la configuración.
 
-## 🛠 Tecnologías
+## Tecnologías
 * .NET 8 (C#)
 * Middleware: Manejo centralizado de excepciones (Retorna respuestas 500/404 estandarizadas).
 * HttpClientFactory: Gestión eficiente de conexiones HTTP.
 * Swagger/OpenAPI: Documentación automática de endpoints.
 * CORS: Configurado para comunicación segura con el frontend.
 
-## ⚙️ Configuración
+## Configuración
 El proyecto utiliza appsettings.json para gestionar la conexión a la API externa:
 
 {
@@ -28,7 +28,7 @@ El proyecto utiliza appsettings.json para gestionar la conexión a la API extern
 }
 
 
-## 🚀 Cómo ejecutar el proyecto
+## Cómo ejecutar el proyecto
 
 ### Prerrequisitos
 * .NET 8 SDK instalado.
@@ -40,7 +40,7 @@ El proyecto utiliza appsettings.json para gestionar la conexión a la API extern
 3. Establece PruebaTecnica.Api como Proyecto de Inicio.
 4. Ejecuta (F5). Swagger se abrirá en http://localhost:5122/swagger.
 
-## 🌐 Endpoints
+## Endpoints
 
 | Método | Endpoint 				| Descripción 													|
 | :------| :------------------------| :-------------------------------------------------------------|
@@ -50,7 +50,7 @@ El proyecto utiliza appsettings.json para gestionar la conexión a la API extern
 | GET 	 | /api/Personajes 			| Obtiene la lista de personajes. 								|
 | GET 	 | /api/Personajes/{id} 	| Obtiene detalle de un personaje. 								|
 
-## 💡 Ejemplos de uso
+## Ejemplos de uso
 * Consulta paginada: GET http://localhost:5122/api/Episodes?page=2
 * Consulta de múltiples: GET http://localhost:5122/api/Episodes/list/1,2,5
 
