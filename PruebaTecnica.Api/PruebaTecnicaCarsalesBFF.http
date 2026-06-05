@@ -1,0 +1,6 @@
+@PruebaTecnicaCarsalesBFF_HostAddress = http://localhost:5122
+
+GET {{PruebaTecnicaCarsalesBFF_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

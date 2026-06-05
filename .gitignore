@@ -1,0 +1,28 @@
+# Carpetas de compilación
+**/bin/
+**/obj/
+
+# Archivos de configuración de usuario y caché de Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Perfiles de publicación
+Properties/PublishProfiles/
+
+# --- Artefactos Temporales ---
+*.tmp
+*.bak
+*.log
+*.db
+
+# --- Archivos del Sistema ---
+.DS_Store
+Thumbs.db
+
+# --- Contexto ---
+.codex/
+.agents/
