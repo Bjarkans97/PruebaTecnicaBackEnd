@@ -1,60 +1,91 @@
-# Backend: API BFF (Backend for Frontend) - Rick and Morty
+# Rick and Morty BFF (Backend for Frontend)
 
-Este proyecto sirve como BFF (Backend for Frontend) para orquestar la comunicación con la API pública de Rick and Morty, garantizando una capa de lógica de negocio, manejo centralizado de errores y una estructura robusta.
+[![CI](https://github.com/Bjarkans97/PruebaTecnicaBackEnd/actions/workflows/ci.yml/badge.svg)](https://github.com/Bjarkans97/PruebaTecnicaBackEnd/actions/workflows/ci.yml)
+
+API en **.NET 8** que actúa como BFF entre el frontend y la [API pública de Rick and Morty](https://rickandmortyapi.com). Centraliza la lógica de negocio, el manejo de errores y la comunicación HTTP.
+
+> Frontend que consume este BFF: [PruebaTecnicaFronEnd](https://github.com/Bjarkans97/PruebaTecnicaFronEnd)
+
+## Flujo
+
+```
+Angular (SPA) ──HTTP──▶ BFF .NET 8 ──HttpClient──▶ rickandmortyapi.com
+```
 
 ## Arquitectura
-El proyecto sigue una estructura de capas para garantizar la separación de responsabilidades y los principios SOLID:
 
-* PruebaTecnica.Entities: Capa de modelos y contratos (POCOs).
-* PruebaTecnica.DataLogic: Capa de acceso a datos (DAL) que gestiona HttpClient hacia la API externa.
-* PruebaTecnica.BusinessLogic: Capa de lógica de negocio (BLL) que procesa, valida y transforma la información.
-* PruebaTecnica.Api: Web API que expone los endpoints al frontend, incluye el Middleware de errores y la configuración.
+El proyecto sigue una estructura en capas para separar responsabilidades y aplicar los principios SOLID:
+
+| Capa | Responsabilidad |
+| :-- | :-- |
+| `PruebaTecnica.Entities` | Modelos y contratos (POCOs) |
+| `PruebaTecnica.DataLogic` | Acceso a datos: `HttpClient` hacia la API externa |
+| `PruebaTecnica.businessLogic` | Lógica de negocio: procesa, valida y transforma la información |
+| `PruebaTecnica.Api` | Web API: endpoints, middleware de errores y configuración |
 
 ## Tecnologías
-* .NET 8 (C#)
-* Middleware: Manejo centralizado de excepciones (Retorna respuestas 500/404 estandarizadas).
-* HttpClientFactory: Gestión eficiente de conexiones HTTP.
-* Swagger/OpenAPI: Documentación automática de endpoints.
-* CORS: Configurado para comunicación segura con el frontend.
+
+- .NET 8 (C#)
+- Middleware de manejo centralizado de excepciones (respuestas 404/500 estandarizadas)
+- `HttpClientFactory` para gestionar conexiones HTTP
+- Swagger/OpenAPI
+- CORS configurado para el frontend
 
 ## Configuración
-El proyecto utiliza appsettings.json para gestionar la conexión a la API externa:
 
+La URL de la API externa se define en `appsettings.json`:
+
+```json
 {
   "ExternalApis": {
     "RickAndMortyBaseUrl": "https://rickandmortyapi.com/api"
   },
   "AllowedHosts": "*"
 }
+```
 
+## Cómo ejecutarlo
 
-## Cómo ejecutar el proyecto
+### Requisitos previos
 
-### Prerrequisitos
-* .NET 8 SDK instalado.
-* Visual Studio 2022 o VS Code.
+- [.NET 8 SDK](https://dotnet.microsoft.com/download)
+- Visual Studio 2022 o VS Code (opcional)
 
-### Pasos para levantar el Backend:
-1. Clona el repositorio: git clone https://github.com/Bjarkans97/PruebaTecnicaBackEnd
-2. Abre la solución PruebaTecnicaCarsales.sln.
-3. Establece PruebaTecnica.Api como Proyecto de Inicio.
-4. Ejecuta (F5). Swagger se abrirá en http://localhost:5122/swagger.
+### Desde la terminal
+
+```bash
+git clone https://github.com/Bjarkans97/PruebaTecnicaBackEnd.git
+cd PruebaTecnicaBackEnd
+dotnet run --project PruebaTecnica.Api
+```
+
+### Desde Visual Studio
+
+1. Abre la solución `PruebaTecnicaCarsalesBFF.sln`.
+2. Define `PruebaTecnica.Api` como proyecto de inicio.
+3. Ejecuta con F5.
+
+Swagger queda disponible en `http://localhost:5122/swagger`.
 
 ## Endpoints
 
-| Método | Endpoint 				| Descripción 													|
-| :------| :------------------------| :-------------------------------------------------------------|
-| GET    | /api/Episodes 			| Obtiene la lista de episodios (usa ?page=n para paginación). 	|
-| GET 	 | /api/Episodes/{id} 		| Obtiene el detalle de un episodio por ID. 					|
-| GET 	 | /api/Episodes/list/{ids} | Obtiene múltiples episodios por IDs separados por coma. 		|
-| GET 	 | /api/Personajes 			| Obtiene la lista de personajes. 								|
-| GET 	 | /api/Personajes/{id} 	| Obtiene detalle de un personaje. 								|
+| Método | Endpoint | Descripción |
+| :-- | :-- | :-- |
+| GET | `/api/Episodios` | Lista de episodios (`?page=n` para paginar) |
+| GET | `/api/Episodios/{id}` | Detalle de un episodio |
+| GET | `/api/Episodios/list/{ids}` | Varios episodios por IDs separados por coma |
+| GET | `/api/Personajes` | Lista de personajes |
+| GET | `/api/Personajes/{id}` | Detalle de un personaje |
+| GET | `/api/Personajes/list/{ids}` | Varios personajes por IDs separados por coma |
 
-## Ejemplos de uso
-* Consulta paginada: GET http://localhost:5122/api/Episodes?page=2
-* Consulta de múltiples: GET http://localhost:5122/api/Episodes/list/1,2,5
+Ejemplos:
 
----
-Notas de implementación:
-* Manejo de Errores: Cualquier falla en el servidor es capturada por el ErrorHandlingMiddleware, retornando un JSON coherente.
-* Inyección de Dependencias: El uso de interfaces asegura que la lógica sea testeable y desacoplada.
+```http
+GET http://localhost:5122/api/Episodios?page=2
+GET http://localhost:5122/api/Episodios/list/1,2,5
+```
+
+## Notas de implementación
+
+- **Manejo de errores**: cualquier falla es capturada por `ErrorHandlingMiddleware`, que devuelve un JSON coherente.
+- **Inyección de dependencias**: el uso de interfaces mantiene la lógica desacoplada y testeable.
